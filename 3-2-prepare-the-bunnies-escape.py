@@ -35,49 +35,82 @@ def findMin(position, matrix, isFirstIteration=False):
     return min(minU, minL, minR, minD)
 
 
+def findCount(position, matrix):
+    row, col = position
+
+    cols = len(matrix)
+    rows = len(matrix[0])
+
+    count = 0
+
+    if row - 1 >= 0:
+        val = matrix[col][row - 1]
+        count = count + 1 if val == 1 else count
+
+    if col - 1 >= 0:
+        val = matrix[col - 1][row]
+        count = count + 1 if val == 1 else count
+
+    if row + 1 < rows:
+        val = matrix[col][row + 1]
+        count = count + 1 if val == 1 else count
+
+    if col + 1 < cols:
+        val = matrix[col + 1][row]
+        count = count + 1 if val == 1 else count
+
+    return count
+
+
+def performOperationOnMatrix(matrix):
+    cols = len(matrix)
+    rows = len(matrix[0])
+
+    # for col in range(cols):
+    #     for row in range(rows):
+    #         isAWall = matrix[col][row] == 1
+
+    #         count = findCount((row, col), matrix)
+
+    #         canBeReplaced = count <= 1 and isAWall
+
+    #         if canBeReplaced:
+    #             matrix[col][row] = 0
+
+    return matrix
+
+
 def solution(map):
     # Your code here
     printMatrix(map)
 
-    inverseMatrix = ([list[::-1] for list in map])[::-1]
+    matrix = [['x' if num == 1 else num for num in arr] for arr in map]
 
-    printMatrix(inverseMatrix)
+    lengths = [[infinity for num in arr] for arr in map]
+    lengths[0][0] = 0
+    visited = [[False for num in arr] for arr in map]
 
-    weightedInverseMatrix = []
+    cols = len(matrix)
+    rows = len(matrix[0])
 
-    # first iteration
-    for col in range(len(inverseMatrix)):
-        list = inverseMatrix[col]
-        weightedInverseMatrix.append([])
-        for row in range(len(list)):
-            if row == 0 and col == 0:
-                weightedInverseMatrix[col].append(0)
+    for col in range(cols):
+        for row in range(rows):
+            visited[col][row] = True
+            if col == 0 and row == 0:
                 continue
-            minVal = findMin((row, col), weightedInverseMatrix, True)
-            isAWall = inverseMatrix[col][row] == 1
-            weightedInverseMatrix[col].append(
-                'x' if isAWall else minVal + 1)
+            if matrix[col][row] != 'x':
+                minVal = findMin((row, col), lengths)
+                lengths[col][row] = minVal + 1
 
-    printMatrix(weightedInverseMatrix)
+    printMatrix(matrix)
+    printMatrix(lengths)
+    printMatrix(visited)
 
-    # weightedInverseMatrix = [list[::-1] for list in weightedInverseMatrix]
-
-    for col in range(len(inverseMatrix)):
-        list = inverseMatrix[col]
-        for row in reversed(range(len(list))):
-            if row == 0 and col == 0:
-                continue
-            minVal = findMin((row, col), weightedInverseMatrix, False)
-            isAWall = inverseMatrix[col][row] == 1
-            weightedInverseMatrix[col][row] = 'x' if isAWall else minVal + 1
-
-    printMatrix(weightedInverseMatrix)
-
-
-arr2 = [[1, 2, 3, 4],
-        [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 16]]
 
 arr = [[0, 0, 0, 0, 0, 0], [1, 1, 1, 1, 1, 0], [0, 0, 0, 0, 0, 0],
        [0, 1, 1, 1, 1, 1], [0, 1, 1, 1, 1, 1], [0, 0, 0, 0, 0, 0]]
+
+arr2 = [[0, 0, 0, 0, 0, 0], [1, 1, 1, 1, 1, 0], [0, 0, 0, 0, 0, 0],
+        [0, 1, 1, 1, 1, 1], [0, 1, 1, 1, 1, 1], [0, 0, 0, 0, 0, 0]]
 
 solution(arr)
