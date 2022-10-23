@@ -16,17 +16,21 @@ def findMin(position, matrix, isFirstIteration=False):
     rows = len(matrix[0])
 
     if row - 1 >= 0:
-        minL = matrix[col][row - 1]
+        num = matrix[col][row - 1]
+        minL = num if num != 'x' else infinity
 
     if col - 1 >= 0:
-        minU = matrix[col - 1][row]
+        num = matrix[col - 1][row]
+        minU = num if num != 'x' else infinity
 
     if not isFirstIteration:
         if row + 1 < rows:
-            minR = matrix[col][row + 1]
+            num = matrix[col][row + 1]
+            minR = num if num != 'x' else infinity
 
         if col + 1 < cols:
-            minD = matrix[col + 1][row]
+            num = matrix[col + 1][row]
+            minD = num if num != 'x' else infinity
 
     return min(minU, minL, minR, minD)
 
@@ -52,21 +56,20 @@ def solution(map):
             minVal = findMin((row, col), weightedInverseMatrix, True)
             isAWall = inverseMatrix[col][row] == 1
             weightedInverseMatrix[col].append(
-                infinity if isAWall else minVal + 1)
+                'x' if isAWall else minVal + 1)
 
     printMatrix(weightedInverseMatrix)
 
-    weightedInverseMatrix = ([list[::-1]
-                             for list in weightedInverseMatrix])[::-1]
+    # weightedInverseMatrix = [list[::-1] for list in weightedInverseMatrix]
 
     for col in range(len(inverseMatrix)):
         list = inverseMatrix[col]
-        for row in range(len(list)):
-            if row == len(list) - 1 and col == len(inverseMatrix) - 1:
+        for row in reversed(range(len(list))):
+            if row == 0 and col == 0:
                 continue
             minVal = findMin((row, col), weightedInverseMatrix, False)
             isAWall = inverseMatrix[col][row] == 1
-            weightedInverseMatrix[col][row] = infinity if isAWall else minVal + 1
+            weightedInverseMatrix[col][row] = 'x' if isAWall else minVal + 1
 
     printMatrix(weightedInverseMatrix)
 
