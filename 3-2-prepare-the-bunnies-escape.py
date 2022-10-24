@@ -7,100 +7,54 @@ def printMatrix(arr):
     print("")
 
 
-def findMin(position, matrix, isFirstIteration=False):
-    minU = minL = minR = minD = infinity
-
-    row, col = position
-
+def findNavigableNeighbours(position, matrix):
     cols = len(matrix)
     rows = len(matrix[0])
 
-    if row - 1 >= 0:
-        num = matrix[col][row - 1]
-        minL = num if num != 'x' else infinity
+    col, row = position
 
-    if col - 1 >= 0:
-        num = matrix[col - 1][row]
-        minU = num if num != 'x' else infinity
+    navigableNeighbours = []
 
-    if not isFirstIteration:
-        if row + 1 < rows:
-            num = matrix[col][row + 1]
-            minR = num if num != 'x' else infinity
+    if col - 1 >= 0 and matrix[col - 1][row] != 1:
+        navigableNeighbours.append((col - 1, row))
 
-        if col + 1 < cols:
-            num = matrix[col + 1][row]
-            minD = num if num != 'x' else infinity
+    if row - 1 >= 0 and matrix[col][row - 1] != 1:
+        navigableNeighbours.append((col, row - 1))
 
-    return min(minU, minL, minR, minD)
+    if col + 1 < cols and matrix[col + 1][row] != 1:
+        navigableNeighbours.append((col + 1, row))
 
+    if row + 1 < rows and matrix[col][row + 1] != 1:
+        navigableNeighbours.append((col, row + 1))
 
-def findCount(position, matrix):
-    row, col = position
-
-    cols = len(matrix)
-    rows = len(matrix[0])
-
-    count = 0
-
-    if row - 1 >= 0:
-        val = matrix[col][row - 1]
-        count = count + 1 if val == 1 else count
-
-    if col - 1 >= 0:
-        val = matrix[col - 1][row]
-        count = count + 1 if val == 1 else count
-
-    if row + 1 < rows:
-        val = matrix[col][row + 1]
-        count = count + 1 if val == 1 else count
-
-    if col + 1 < cols:
-        val = matrix[col + 1][row]
-        count = count + 1 if val == 1 else count
-
-    return count
-
-
-def performOperationOnMatrix(matrix):
-    cols = len(matrix)
-    rows = len(matrix[0])
-
-    # for col in range(cols):
-    #     for row in range(rows):
-    #         isAWall = matrix[col][row] == 1
-
-    #         count = findCount((row, col), matrix)
-
-    #         canBeReplaced = count <= 1 and isAWall
-
-    #         if canBeReplaced:
-    #             matrix[col][row] = 0
-
-    return matrix
+    return navigableNeighbours
 
 
 def solution(map):
     # Your code here
     printMatrix(map)
 
-    matrix = [['x' if num == 1 else num for num in arr] for arr in map]
+    matrix = [[num for num in arr] for arr in map]
 
     lengths = [[infinity for num in arr] for arr in map]
     lengths[0][0] = 0
     visited = [[False for num in arr] for arr in map]
 
-    cols = len(matrix)
-    rows = len(matrix[0])
+    temp = [(0, 0)]
 
-    for col in range(cols):
-        for row in range(rows):
+    while len(temp) != 0:
+        print("temp", temp)
+        col, row = temp[0]
+        if not visited[col][row] and matrix[col][row] != 1:
             visited[col][row] = True
-            if col == 0 and row == 0:
-                continue
-            if matrix[col][row] != 'x':
-                minVal = findMin((row, col), lengths)
-                lengths[col][row] = minVal + 1
+            navigableNeigbours = findNavigableNeighbours((col, row), matrix)
+            for neighbour in navigableNeigbours:
+                neighbourCol, neighbourRow = neighbour
+                lengths[neighbourCol][neighbourRow] = lengths[col][row] + 1 if lengths[col][row] + \
+                    1 < lengths[neighbourCol][neighbourRow] else lengths[neighbourCol][neighbourRow]
+            temp.extend(navigableNeigbours)
+            print("temp after append", temp)
+        temp.pop(0)
 
     printMatrix(matrix)
     printMatrix(lengths)
