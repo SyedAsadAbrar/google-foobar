@@ -57,9 +57,9 @@ def findLeastNumberOfMoves(matrix):
     cols = len(matrix)
     rows = len(matrix[0])
 
-    lengths = [[infinity for _ in arr] for _ in matrix]
+    lengths = [[infinity for num in arr] for arr in matrix]
     lengths[0][0] = 0
-    visited = [[False for _ in arr] for _ in matrix]
+    visited = [[False for num in arr] for arr in matrix]
 
     temp = [(0, 0)]
 
@@ -83,36 +83,35 @@ def solution(matrix):
     cols = len(matrix)
     rows = len(matrix[0])
 
-    if cols >= 2 and cols <= 20 and rows >= 2 and cols <= 20:
-        result = []
+    result = []
 
-        possibleWallRemovingPositions = []
+    possibleWallRemovingPositions = []
 
-        newMatrices = []
+    newMatrices = []
 
-        # printMatrix(matrix)
+    # printMatrix(matrix)
 
+    result.append(findLeastNumberOfMoves(matrix))
+
+    for col in range(cols):
+        for row in range(rows):
+            if matrix[col][row] == 1:
+                value = findNeighbouringWallsCount((col, row), matrix)
+                if value == 1:
+                    possibleWallRemovingPositions.append((col, row))
+
+    # printMatrix(possibleWallRemovingPositions)
+
+    for position in possibleWallRemovingPositions:
+        col, row = position
+        newMatrix = [[num for num in arr] for arr in matrix]
+        newMatrix[col][row] = 0
+        newMatrices.append(newMatrix)
+
+    for matrix in newMatrices:
         result.append(findLeastNumberOfMoves(matrix))
 
-        for col in range(cols):
-            for row in range(rows):
-                if matrix[col][row] == 1:
-                    value = findNeighbouringWallsCount((col, row), matrix)
-                    if value == 1:
-                        possibleWallRemovingPositions.append((col, row))
-
-        # printMatrix(possibleWallRemovingPositions)
-
-        for position in possibleWallRemovingPositions:
-            col, row = position
-            newMatrix = [[num for num in arr] for arr in matrix]
-            newMatrix[col][row] = 0
-            newMatrices.append(newMatrix)
-
-        for matrix in newMatrices:
-            result.append(findLeastNumberOfMoves(matrix))
-
-        return min(result)
+    return min(result)
 
 
 arr = [[0, 0, 0, 0, 0, 0], [1, 1, 1, 1, 1, 0], [0, 0, 0, 0, 0, 0],
