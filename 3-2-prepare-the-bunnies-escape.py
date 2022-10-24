@@ -57,9 +57,9 @@ def findLeastNumberOfMoves(matrix):
     cols = len(matrix)
     rows = len(matrix[0])
 
-    lengths = [[infinity for _ in range(rows)] for _ in range(cols)]
+    lengths = [[infinity for _ in arr] for _ in matrix]
     lengths[0][0] = 0
-    visited = [[False for _ in range(rows)] for _ in range(cols)]
+    visited = [[False for _ in arr] for _ in matrix]
 
     temp = [(0, 0)]
 
