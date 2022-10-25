@@ -1,12 +1,6 @@
 infinity = float('inf')
 
 
-# def printMatrix(arr):
-#     for i in arr:
-#         print(i)
-#     print("")
-
-
 def findNavigableNeighbours(position, matrix):
     cols = len(matrix)
     rows = len(matrix[0])
@@ -89,8 +83,6 @@ def solution(matrix):
 
     newMatrices = []
 
-    # printMatrix(matrix)
-
     result.append(findLeastNumberOfMoves(matrix))
 
     for col in range(cols):
@@ -99,8 +91,6 @@ def solution(matrix):
                 value = findNeighbouringWallsCount((col, row), matrix)
                 if value == 1:
                     possibleWallRemovingPositions.append((col, row))
-
-    # printMatrix(possibleWallRemovingPositions)
 
     for position in possibleWallRemovingPositions:
         col, row = position
