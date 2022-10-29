@@ -93,7 +93,7 @@ def solution(m):
                 break
         if isZero:
             if index == 0:
-                result = [num for num in m[0]]
+                result = [1] + [num for num in arr[1:]]
                 result.append(1)
                 return result
             count += 1
@@ -153,7 +153,7 @@ def solution(m):
     return numerators
 
 
-testCase = [[0]]
+testCase = [[0, 0, 0, 0, 0]]
 
 arr = [[0, 2, 1, 0, 0], [0, 0, 0, 3, 4], [
     0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]]
