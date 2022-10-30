@@ -2,6 +2,12 @@ from fractions import Fraction
 import numpy as np
 
 
+def printMatrix(m):
+    for arr in m:
+        print(arr)
+    print("")
+
+
 def lcm(arr):
     n = len(arr)
 
@@ -35,17 +41,19 @@ def solution(m):
     matrix = [[(Fraction(num, sum(arr)) if (sum(
         arr) != 0 and num != 0) else num) for num in arr] for arr in m]
 
-    count = 0
+    absorbingRows = []
+    nonAbsorbingRows = []
 
     for index in range(len(matrix)):
         arr = matrix[index]
         arrSum = sum(arr)
         if arrSum == 0:
             if index == 0:
-                result = [1] + [num for num in arr[1:]]
-                result.append(1)
+                result = [1] + [num for num in arr[1:]] + [1]
                 return result
-            count += 1
+            absorbingRows.append(index)
+        else:
+            nonAbsorbingRows.append(index)
 
     q = []
     r = []
@@ -54,13 +62,13 @@ def solution(m):
     n = []
 
     # make q and r matrix
-    for outerIndex in range(0, len(matrix) - count):
+    for outerIndex in nonAbsorbingRows:
         q.append([])
         r.append([])
         arr = matrix[outerIndex]
-        for innerIndex in range(0, len(matrix) - count):
+        for innerIndex in nonAbsorbingRows:
             q[outerIndex].append(arr[innerIndex])
-        for innerIndex in range(len(matrix) - count, len(matrix)):
+        for innerIndex in absorbingRows:
             r[outerIndex].append(arr[innerIndex])
 
     q = np.matrix(q, dtype=float)
@@ -79,9 +87,6 @@ def solution(m):
     denominator = lcm(
         [fraction.denominator for fraction in result[0]])
 
-    print(denominator)
-    print("result", result[0])
-
     numerators = [int(fraction.numerator *
                   (denominator / fraction.denominator)) for fraction in result[0]]
 
@@ -96,4 +101,6 @@ arr = [[0, 2, 1, 0, 0], [0, 0, 0, 3, 4], [
 arr2 = [[0, 1, 0, 0, 0, 1], [4, 0, 0, 3, 2, 0], [0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]]
 
-print(solution(arr))
+printMatrix(arr2)
+
+print(solution(arr2))
