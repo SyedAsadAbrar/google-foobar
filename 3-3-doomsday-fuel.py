@@ -72,9 +72,9 @@ def solution(m):
 
     i = np.identity(len(q))
 
-    n = (i - q) ** -1
+    n = (i - q)
 
-    # n = np.linalg.inv(n)
+    n = np.linalg.inv(n)
 
     result = np.dot(n, r)
 
