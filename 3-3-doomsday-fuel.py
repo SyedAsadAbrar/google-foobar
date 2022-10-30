@@ -1,38 +1,17 @@
 from fractions import Fraction
 import numpy as np
+from math import gcd
 
 
 def lcm(arr):
     n = len(arr)
 
-    print(arr)
+    result = 1
 
-    max_num = 0
-    for i in range(n):
-        if (max_num < arr[i]):
-            max_num = arr[i]
+    for num in arr:
+        result = result * num // gcd(result, num)
 
-    res = 1
-
-    x = 2
-    while (x <= max_num):
-        indexes = []
-        for j in range(n):
-            if (arr[j] % x == 0):
-                indexes.append(j)
-
-        if (len(indexes) >= 2):
-            for j in range(len(indexes)):
-                arr[indexes[j]] = int(arr[indexes[j]] / x)
-
-            res = res * x
-        else:
-            x += 1
-
-    for i in range(n):
-        res = res * arr[i]
-
-    return res
+    return result
 
 
 def solution(m):
