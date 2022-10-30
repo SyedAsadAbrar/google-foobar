@@ -191,7 +191,3 @@ testCases = [test1, test2, test3, test4,
 
 results = [[7, 6, 8, 21], [0, 3, 2, 9, 14], [1, 2, 3], [1, 1], [1, 2, 3, 4, 5, 15], [
     4, 5, 5, 4, 2, 20], [1, 1, 1, 1, 1, 5], [2, 1, 1, 1, 1, 6], [6, 44, 4, 11, 22, 13, 100], [1, 1, 1, 2, 5]]
-
-for index in range(len(testCases)):
-    testCase = testCases[index]
-    print(results[index] == solution(testCase))
