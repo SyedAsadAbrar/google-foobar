@@ -72,9 +72,9 @@ def solution(m):
 
     i = np.identity(len(q))
 
-    n = i - q
+    n = (i - q) ** -1
 
-    n = np.linalg.inv(n)
+    # n = np.linalg.inv(n)
 
     result = np.dot(n, r)
 
@@ -90,9 +90,7 @@ def solution(m):
     numerators = [int(fraction.numerator *
                   (denominator / fraction.denominator)) for fraction in result[0]]
 
-    numerators.append(denominator)
-
-    return numerators
+    return numerators + [denominator]
 
 
 testCase = [[0, 0, 0, 0, 0]]
