@@ -8,34 +8,6 @@ def printMatrix(m):
     print("")
 
 
-def lcm(arr):
-    n = len(arr)
-
-    max_num = max(arr)
-
-    res = 1
-
-    x = 2
-    while (x <= max_num):
-        indexes = []
-        for j in range(n):
-            if (arr[j] % x == 0):
-                indexes.append(j)
-
-        if (len(indexes) >= 2):
-            for j in range(len(indexes)):
-                arr[indexes[j]] = int(arr[indexes[j]] / x)
-
-            res = res * x
-        else:
-            x += 1
-
-    for i in range(n):
-        res = res * arr[i]
-
-    return res
-
-
 def solution(m):
     # Your code here
     matrix = [[(Fraction(num, sum(arr)) if (sum(
@@ -73,6 +45,11 @@ def solution(m):
 
     q = np.matrix(q, dtype=float)
 
+    r = np.matrix(r, dtype=float)
+
+    print("q", q)
+    print("r", r)
+
     i = np.identity(len(q))
 
     n = (i - q)
@@ -84,7 +61,7 @@ def solution(m):
     result = [[Fraction(decimal).limit_denominator() for decimal in arr]
               for arr in np.asarray(result)]
 
-    denominator = lcm(
+    denominator = np.lcm.reduce(
         [fraction.denominator for fraction in result[0]])
 
     numerators = [int(fraction.numerator *
