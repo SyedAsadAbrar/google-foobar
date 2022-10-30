@@ -5,12 +5,7 @@ import numpy as np
 def lcm(arr):
     n = len(arr)
 
-    print(arr)
-
-    max_num = 0
-    for i in range(n):
-        if (max_num < arr[i]):
-            max_num = arr[i]
+    max_num = max(arr)
 
     res = 1
 
