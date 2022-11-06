@@ -7,9 +7,15 @@ def solution(num_buns, num_required):
     if num_required < 0 or num_required > 9:
         return []
 
-    # finding out possible combinations of num_buns taken num_required at a time
-    # these combinations would be the possible groups of bunnies which get a key x
-    possibleCombinations = list(combinations(range(num_buns), num_required))
+    # Finding out possible combinations of num_buns taken (num_buns - num_required + 1)
+    # at a time, since num_required is the number of bunnies we are trying to achieve.
+    # According to the problem statement, only num_required bunnies should be able to
+    # open the locks and not num_required - 1; this means that num_buns - (num_required - 1)
+    # have a key which (num_required - 1) bunnies do not. This way we can get the number
+    # of copies of a key x.
+    # These combinations would be the possible groups of bunnies which get a key x
+    possibleCombinations = list(combinations(
+        range(num_buns), num_buns - num_required + 1))
 
     result = [[] for bunny in range(num_buns)]
 
