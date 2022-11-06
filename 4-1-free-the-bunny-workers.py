@@ -18,8 +18,6 @@ def solution(num_buns, num_required):
     possibleCombinations = list(combinations(
         range(num_buns), num_buns - num_required + 1))
 
-    print("combinations", possibleCombinations)
-
     result = [[] for bunny in range(num_buns)]
 
     for index in range(len(possibleCombinations)):
