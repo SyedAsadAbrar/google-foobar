@@ -12,10 +12,13 @@ def solution(num_buns, num_required):
     # According to the problem statement, only num_required bunnies should be able to
     # open the locks and not num_required - 1; this means that num_buns - (num_required - 1)
     # have a key which (num_required - 1) bunnies do not. This way we can get the number
-    # of copies of a key x.
+    # of copies of a key x since we are finding combinations of groups of bunnies which
+    # have a key x.
     # These combinations would be the possible groups of bunnies which get a key x
     possibleCombinations = list(combinations(
         range(num_buns), num_buns - num_required + 1))
+
+    print("combinations", possibleCombinations)
 
     result = [[] for bunny in range(num_buns)]
 
