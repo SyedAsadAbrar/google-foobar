@@ -2,6 +2,8 @@ from itertools import permutations, combinations
 import numpy as np
 
 
+# NOT COMPLETE
+
 def solution(w, h, s):
     # Your code here
     # print("Permutations")
